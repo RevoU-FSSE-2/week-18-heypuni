@@ -1,11 +1,19 @@
 import { Button, Form, Input } from 'antd';
 import { useState } from 'react';
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate();
+
+  const handleRegisterLinkClick = (e) => {
+    e.preventDefault();
+    navigate('/');
+}
 
   console.log('data', email, password);
 
@@ -24,12 +32,14 @@ function Login() {
               if (response && response.data && response.data.tokens && response.data.tokens.access) {
                 localStorage.setItem('token', JSON.stringify(response.data.tokens.access.token))
                 localStorage.setItem('user', JSON.stringify(response.data.user))
-                window.location.reload()
+                navigate('/product')
               }
           })
             .catch(function (error) {
-              console.log(error);
-          });
+              console.error('Login error', error.message);
+               window.alert('error', 'Login Failed', `<b>[CODE] ${error.code}</b><br>Please check your username and password`);
+              }
+          );
         }
 
   return (
@@ -95,6 +105,11 @@ function Login() {
           <Button type="primary" onClick={() => onLoginSubmit()} htmlType="login">
             Login  
           </Button>
+
+            <Link href="#" onClick={handleRegisterLinkClick}>
+              Don't have an account? Register here!
+            </Link>
+
         </Form.Item>
       </div>
      </Form>
