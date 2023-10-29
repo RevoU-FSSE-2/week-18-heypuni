@@ -21,7 +21,7 @@ function ProductCreate() {
   const onProductSubmit = () => {
       console.log(`title: ${title}, desc: ${description}, priority: ${priority}`)
     
-      axios.post(`${URL}/v1/Product`, {
+      axios.post(`${URL}/v1/products`, {
         title,
         description,
         priority,
